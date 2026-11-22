@@ -23,14 +23,14 @@ architecture sobel_rtl of sobel is
     variable gx, gy : signed(11 downto 0);
     variable mag : unsigned(11 downto 0);
   begin
-    tl := to_s12(kernels(offset));
-    tm := to_s12(kernels(offset + 1));
-    tr := to_s12(kernels(offset + 2));
+    bl := to_s12(kernels(offset));
+    bm := to_s12(kernels(offset + 1));
+    br := to_s12(kernels(offset + 2));
     ml := to_s12(kernels(offset + 6));
     mr := to_s12(kernels(offset + 8));
-    bl := to_s12(kernels(offset + 12));
-    bm := to_s12(kernels(offset + 13));
-    br := to_s12(kernels(offset + 14));
+    tl := to_s12(kernels(offset + 12));
+    tm := to_s12(kernels(offset + 13));
+    tr := to_s12(kernels(offset + 14));
     
     gx := (tr + shift_left(mr, 1) + br) - (tl + shift_left(ml, 1) + bl);
     gy := (bl + shift_left(bm, 1) + br) - (tl + shift_left(tm, 1) + tr);

@@ -67,19 +67,20 @@ architecture Behavioral of IBUF_v1 is
 begin
     GEN_REG1 :
     for I in 4 to 351 generate
-        memx : dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mem_dout(I-4), d_out => sv_mem_dout(I));
+        --GEN_REG_IF1:
+        --if NOT((I = 352) OR (I = 353) OR (I = 354) OR (I = 355)) generate
+            memx : dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mem_dout(I-4), d_out => sv_mem_dout(I));
+        --end generate GEN_REG_IF1;
     end generate GEN_REG1;
     GEN_REG2 :
     for I in 356 to 712 generate
         memx : dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mem_dout(I-4), d_out => sv_mem_dout(I));
     end generate GEN_REG2;
     
-    
     mem_0 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(7 downto 0), d_out => sv_mem_dout(0));
     mem_1 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(15 downto 8), d_out => sv_mem_dout(1));
     mem_2 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(23 downto 16), d_out => sv_mem_dout(2));
     mem_3 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(31 downto 24), d_out => sv_mem_dout(3));
-    mem_712 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mem_dout(712-4), d_out => sv_mem_dout(712));
     
     --First Line write registers
     mem_352 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mux_fl_out(0), d_out => sv_mem_dout(352));
@@ -89,24 +90,24 @@ begin
     
     --SOL muxes
     mux0 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(712), d_in1 => sv_mem_dout(711), ctrl => sol, d_out => sv_mux_leftright_out(5));
-    mux1 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(360), d_in1 => sv_mem_dout(359), ctrl => sol, d_out => sv_mux_leftright_out(4));
-    mux2 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(8), d_in1 => sv_mem_dout(7), ctrl => sol, d_out => sv_mux_leftright_out(3));
+    mux1 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(360), d_in1 => sv_mem_dout(359), ctrl => sol, d_out => sv_mux_leftright_out(3));
+    mux2 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(8), d_in1 => sv_mem_dout(7), ctrl => sol, d_out => sv_mux_leftright_out(1));
     --EOL muxes
-    mux3 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(707), d_in1 => sv_mem_dout(708), ctrl => eol, d_out => sv_mux_leftright_out(2));
-    mux4 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(355), d_in1 => sv_mem_dout(356), ctrl => eol, d_out => sv_mux_leftright_out(1));
+    mux3 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(707), d_in1 => sv_mem_dout(708), ctrl => eol, d_out => sv_mux_leftright_out(4));
+    mux4 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(355), d_in1 => sv_mem_dout(356), ctrl => eol, d_out => sv_mux_leftright_out(2));
     mux5 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(3), d_in1 => sv_mem_dout(4), ctrl => eol, d_out => sv_mux_leftright_out(0));
     --First Line Write Muxes
-    mux6 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(348) , d_in1 => d_in(7 downto 0), ctrl => rowfirst, d_out => sv_mux_fl_out(0));
-    mux7 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(349) , d_in1 => d_in(15 downto 8), ctrl => rowfirst, d_out => sv_mux_fl_out(1));
-    mux8 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(350) , d_in1 => d_in(23 downto 16), ctrl => rowfirst, d_out => sv_mux_fl_out(2));
-    mux9 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(351) , d_in1 => d_in(31 downto 24), ctrl => rowfirst, d_out => sv_mux_fl_out(3));
+    mux6 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(352-4) , d_in1 => d_in(7 downto 0), ctrl => rowfirst, d_out => sv_mux_fl_out(0));
+    mux7 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(353-4) , d_in1 => d_in(15 downto 8), ctrl => rowfirst, d_out => sv_mux_fl_out(1));
+    mux8 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(354-4) , d_in1 => d_in(23 downto 16), ctrl => rowfirst, d_out => sv_mux_fl_out(2));
+    mux9 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(355-4) , d_in1 => d_in(31 downto 24), ctrl => rowfirst, d_out => sv_mux_fl_out(3));
     --Last Line Write Muxes
-    mux10 :      MUX_2_to_1_8b port map (d_in0 => sv_mux_leftright_out(0), d_in1 => sv_mux_leftright_out(2), ctrl => rowlast, d_out => sv_mux_ll_out(0));
-    mux11 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(4), d_in1 => sv_mem_dout(356), ctrl => rowlast, d_out => sv_mux_ll_out(1));
-    mux12 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(5), d_in1 => sv_mem_dout(357), ctrl => rowlast, d_out => sv_mux_ll_out(2));
-    mux13 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(6), d_in1 => sv_mem_dout(358), ctrl => rowlast, d_out => sv_mux_ll_out(3));
-    mux14 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(7), d_in1 => sv_mem_dout(359), ctrl => rowlast, d_out => sv_mux_ll_out(4));
-    mux15 :      MUX_2_to_1_8b port map (d_in0 => sv_mux_leftright_out(1), d_in1 => sv_mux_leftright_out(3), ctrl => rowlast, d_out => sv_mux_ll_out(5));
+    mux10 :     MUX_2_to_1_8b port map (d_in0 => sv_mux_leftright_out(0), d_in1 => sv_mux_leftright_out(2), ctrl => rowlast, d_out => sv_mux_ll_out(0));
+    mux11 :     MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(4), d_in1 => sv_mem_dout(356), ctrl => rowlast, d_out => sv_mux_ll_out(1));
+    mux12 :     MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(5), d_in1 => sv_mem_dout(357), ctrl => rowlast, d_out => sv_mux_ll_out(2));
+    mux13 :     MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(6), d_in1 => sv_mem_dout(358), ctrl => rowlast, d_out => sv_mux_ll_out(3));
+    mux14 :     MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(7), d_in1 => sv_mem_dout(359), ctrl => rowlast, d_out => sv_mux_ll_out(4));
+    mux15 :     MUX_2_to_1_8b port map (d_in0 => sv_mux_leftright_out(1), d_in1 => sv_mux_leftright_out(3), ctrl => rowlast, d_out => sv_mux_ll_out(5));
     
     --Output Area 1
     d_out(7 downto 0) <= sv_mux_ll_out(0);
@@ -131,3 +132,4 @@ begin
     d_out(143 downto 136) <= sv_mux_leftright_out(5);
     
 end Behavioral;
+

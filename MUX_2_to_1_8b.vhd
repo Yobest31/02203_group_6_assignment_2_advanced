@@ -42,7 +42,7 @@ architecture Behavioral of MUX_2_to_1_8b is
 
 begin
 
-process(d_in0, d_in1, ctrl)
+process(ctrl)
 begin
     d_out <= d_in1;
     if ctrl = '0' then

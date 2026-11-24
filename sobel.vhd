@@ -50,7 +50,7 @@ begin
     if rst_n = '0' then
       pixels_out <= (others => '0');
     elsif rising_edge(clk) then
-      pixels_out <= sobel_fn(pixels_in, 3) & sobel_fn(pixels_in, 2) & sobel_fn(pixels_in, 1) & sobel_fn(pixels_in, 0);
+      pixels_out <= sobel_fn(pixels_in, 0) & sobel_fn(pixels_in, 1) & sobel_fn(pixels_in, 2) & sobel_fn(pixels_in, 3);
     end if;
   end process;
   

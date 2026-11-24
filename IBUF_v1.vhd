@@ -77,16 +77,16 @@ begin
         memx : dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mem_dout(I-4), d_out => sv_mem_dout(I));
     end generate GEN_REG2;
     
-    mem_0 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(7 downto 0), d_out => sv_mem_dout(0));
-    mem_1 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(15 downto 8), d_out => sv_mem_dout(1));
-    mem_2 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(23 downto 16), d_out => sv_mem_dout(2));
-    mem_3 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(31 downto 24), d_out => sv_mem_dout(3));
+    mem_0 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(31 downto 24), d_out => sv_mem_dout(0));
+    mem_1 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(23 downto 16), d_out => sv_mem_dout(1));
+    mem_2 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(15 downto 8), d_out => sv_mem_dout(2));
+    mem_3 :     dram_8b port map (rst => rst, clk => clk, en => '1', d_in => d_in(7 downto 0), d_out => sv_mem_dout(3));
     
     --First Line write registers
     mem_352 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mux_fl_out(0), d_out => sv_mem_dout(352));
     mem_353 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mux_fl_out(1), d_out => sv_mem_dout(353));
     mem_354 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mux_fl_out(2), d_out => sv_mem_dout(354));
-    mem_355 :   dram_8b port map (rst => rst, clk => clk, en => '1', d_in => sv_mux_fl_out(3), d_out => sv_mem_dout(355));
+    mem_355 :   dram_8b port map (rst => rst, clk => clk, en  => '1', d_in => sv_mux_fl_out(3), d_out => sv_mem_dout(355));
     
     --SOL muxes
     mux0 :      MUX_2_to_1_8b port map (d_in0 => sv_mem_dout(712), d_in1 => sv_mem_dout(711), ctrl => sol, d_out => sv_mux_leftright_out(5));
@@ -132,4 +132,3 @@ begin
     d_out(143 downto 136) <= sv_mux_leftright_out(5);
     
 end Behavioral;
-
